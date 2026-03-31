@@ -14,7 +14,7 @@ services:
     container_name: user
     depends_on:
     - redis  
-    - mongobd 
+    - mongodb
 
   frontend:
     build:
