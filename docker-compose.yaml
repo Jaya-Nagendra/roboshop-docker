@@ -13,7 +13,8 @@ service:
     image: nagendra2244/user:1.0.0  
     container_name: user
     depends_on:
-    - redis   
+    - redis  
+    - mongobd 
 
   frontend:
     duild:
@@ -25,6 +26,8 @@ service:
     - catalogue
     - user 
     - cart 
+    - shipping
+    - payment
 
   cart:
     duild:
@@ -32,7 +35,35 @@ service:
     image: nagendra2244/cart:1.0.0  
     container_name: cart
     depends_on:
-    - redis   
+    - redis 
+    - catalogue  
+
+  shipping:
+    duild:
+      dockerfile: ./shipping
+    image: nagendra2244/shipping:1.0.0  
+    container_name: shipping
+    depends_on:
+    - mysql
+    - cart
+
+  payment:
+    duild:
+      dockerfile: ./payment
+    image: nagendra2244/payment:1.0.0  
+    container_name: payment
+    environment:
+      CART_HOST: "cart"
+      CART_PORT: "8080"
+      USER_HOST: "user"
+      USER_PORT: "8080"
+      AMQP_HOST: "rabbitmq"
+      AMQP_USER: "roboshop"
+      AMQP_PASS: "roboshop123"
+    depends_on:
+    - rabbitmq
+    - cart 
+    - user
 
   mongodb:
     build: 
@@ -49,6 +80,15 @@ service:
       dockerfile: ./mysql  # It moves to mongodb directory
     image: nagendra2244/mysql:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
     container_name: mysql
+
+  rabbitmq:
+    image: rabbitmq:3
+    environment: 
+      RABBITMQ_DEFAULT_USER: roboshop
+      RABBITMQ_DEFAULT_PASS: roboshop123
+    container_name: rabbitmq
+    volumes:
+    - rabbitmq:/var/lib/rabbitmq    
 
 networks:
   default: 
