@@ -8,7 +8,7 @@ services:
     - mongodb
 
   user:
-    duild:
+    build:
       dockerfile: ./user
     image: nagendra2244/user:1.0.0  
     container_name: user
@@ -17,7 +17,7 @@ services:
     - mongobd 
 
   frontend:
-    duild:
+    build:
       dockerfile: ./frontend
     image: nagendra2244/frontend:1.0.0  
     container_name: frontend
@@ -30,7 +30,7 @@ services:
     - payment
 
   cart:
-    duild:
+    build:
       dockerfile: ./cart
     image: nagendra2244/cart:1.0.0  
     container_name: cart
@@ -39,7 +39,7 @@ services:
     - catalogue  
 
   shipping:
-    duild:
+    build:
       dockerfile: ./shipping
     image: nagendra2244/shipping:1.0.0  
     container_name: shipping
@@ -48,7 +48,7 @@ services:
     - cart
 
   payment:
-    duild:
+    build:
       dockerfile: ./payment
     image: nagendra2244/payment:1.0.0  
     container_name: payment
