@@ -1,7 +1,7 @@
 service:
   catalogue:
     build: 
-      dockerfile: catalogue.Dockerfile
+      dockerfile: ./catalogue
     image: nagendra2244/catalogue:1.0.0
     container_name: catalogue
     depends_on:
@@ -9,7 +9,7 @@ service:
 
   user:
     duild:
-      dockerfile: user.Dockerfile
+      dockerfile: ./user
     image: nagendra2244/user:1.0.0  
     container_name: user
     depends_on:
@@ -17,22 +17,38 @@ service:
 
   frontend:
     duild:
-      dockerfile: frontend.Dockerfile
+      dockerfile: ./frontend
     image: nagendra2244/frontend:1.0.0  
     container_name: frontend
+    ports: 80:80
     depends_on:
     - catalogue
-    - user    
+    - user 
+    - cart 
+
+  cart:
+    duild:
+      dockerfile: ./cart
+    image: nagendra2244/cart:1.0.0  
+    container_name: cart
+    depends_on:
+    - redis   
 
   mongodb:
     build: 
-      dockerfile: mongodb.Dockerfile  # It moves to mongodb directory
+      dockerfile: ./mongodb  # It moves to mongodb directory
     image: nagendra2244/mongodb:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
     container_name: mongodb
 
   redis:
     image: redis:7.0
     container_name: redis
+
+  mysql:
+    build: 
+      dockerfile: ./mysql  # It moves to mongodb directory
+    image: nagendra2244/mysql:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
+    container_name: mysql
 
 networks:
   default: 
