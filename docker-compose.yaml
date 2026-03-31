@@ -1,0 +1,41 @@
+service:
+  catalogue:
+    build: 
+      dockerfile: catalogue.Dockerfile
+    image: nagendra2244/catalogue:1.0.0
+    container_name: catalogue
+    depends_on:
+    - mongodb
+
+  user:
+    duild:
+      dockerfile: user.Dockerfile
+    image: nagendra2244/user:1.0.0  
+    container_name: user
+    depends_on:
+    - redis   
+
+  frontend:
+    duild:
+      dockerfile: frontend.Dockerfile
+    image: nagendra2244/frontend:1.0.0  
+    container_name: frontend
+    depends_on:
+    - catalogue
+    - user    
+
+  mongodb:
+    build: 
+      dockerfile: mongodb.Dockerfile  # It moves to mongodb directory
+    image: nagendra2244/mongodb:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
+    container_name: mongodb
+
+  redis:
+    image: redis:7.0
+    container_name: redis
+
+networks:
+  default: 
+    driver: bridge
+    name: roboshop
+    external: false # If true, you need to cretae network manually
