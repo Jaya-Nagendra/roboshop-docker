@@ -1,14 +1,117 @@
+# services:
+#   catalogue:
+#     build: ./catalogue
+#     image: nagendra2244/catalogue:1.0.0
+#     container_name: catalogue
+#     depends_on:
+#     - mongodb
+
+#   user:
+#     build: ./user
+#     image: nagendra2244/user:1.0.0  
+#     container_name: user
+#     depends_on:
+#     - redis  
+#     - mongodb
+
+#   frontend:
+#     build: ./frontend
+#     image: nagendra2244/frontend:1.0.0  
+#     container_name: frontend
+#     ports: 
+#     - "80:80"
+#     depends_on:
+#     - catalogue
+#     - user 
+#     - cart 
+#     - shipping
+#     - payment
+
+#   cart:
+#     build: ./cart
+#     image: nagendra2244/cart:1.0.0  
+#     container_name: cart
+#     depends_on:
+#     - redis 
+#     - catalogue  
+
+#   shipping:
+#     build: ./shipping
+#     image: nagendra2244/shipping:1.0.0  
+#     container_name: shipping
+#     depends_on:
+#     - mysql
+#     - cart
+
+#   payment:
+#     build: ./payment
+#     image: nagendra2244/payment:1.0.0  
+#     container_name: payment
+#     environment:
+#       CART_HOST: "cart"
+#       CART_PORT: "8080"
+#       USER_HOST: "user"
+#       USER_PORT: "8080"
+#       AMQP_HOST: "rabbitmq"
+#       AMQP_USER: "roboshop"
+#       AMQP_PASS: "roboshop123"
+#     depends_on:
+#     - rabbitmq
+#     - cart 
+#     - user
+
+#   mongodb:
+#     build: ./mongodb  # It moves to mongodb directory
+#     image: nagendra2244/mongodb:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
+#     container_name: mongodb
+#     volumes:
+#     - mongodb:/data/db
+
+#   redis:
+#     image: redis:7.0
+#     container_name: redis
+#     volumes:
+#     - redis:/data
+
+#   mysql:
+#     build: ./mysql  # It moves to mongodb directory
+#     image: nagendra2244/mysql:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
+#     container_name: mysql
+#     volumes:
+#     - mysql:/var/lib/mysql
+
+#   rabbitmq:
+#     image: rabbitmq:3
+#     environment: 
+#       RABBITMQ_DEFAULT_USER: roboshop
+#       RABBITMQ_DEFAULT_PASS: roboshop123
+#     container_name: rabbitmq
+#     volumes:
+#     - rabbitmq:/var/lib/rabbitmq   
+
+# networks:
+#   default: 
+#     driver: bridge
+#     name: roboshop
+#     external: false # If true, you need to cretae network manually
+
+# volumes:
+#   mongodb:  # docker volume create mongodb
+#   redis:
+#   mysql:
+#   rabbitmq:
+
 services:
   catalogue:
     build: ./catalogue
-    image: nagendra2244/catalogue:1.0.0
+    image: nagendra2244/catalogue:1.2.0
     container_name: catalogue
     depends_on:
     - mongodb
 
   user:
     build: ./user
-    image: nagendra2244/user:1.0.0  
+    image: nagendra2244/user:1.2.0  
     container_name: user
     depends_on:
     - redis  
@@ -16,7 +119,7 @@ services:
 
   frontend:
     build: ./frontend
-    image: nagendra2244/frontend:1.0.0  
+    image: nagendra2244/frontend:1.2.0  
     container_name: frontend
     ports: 
     - "80:80"
@@ -29,7 +132,7 @@ services:
 
   cart:
     build: ./cart
-    image: nagendra2244/cart:1.0.0  
+    image: nagendra2244/cart:1.2.0  
     container_name: cart
     depends_on:
     - redis 
@@ -37,7 +140,7 @@ services:
 
   shipping:
     build: ./shipping
-    image: nagendra2244/shipping:1.0.0  
+    image: nagendra2244/shipping:1.2.0  
     container_name: shipping
     depends_on:
     - mysql
@@ -45,7 +148,7 @@ services:
 
   payment:
     build: ./payment
-    image: nagendra2244/payment:1.0.0  
+    image: nagendra2244/payment:1.2.0  
     container_name: payment
     environment:
       CART_HOST: "cart"
@@ -62,7 +165,7 @@ services:
 
   mongodb:
     build: ./mongodb  # It moves to mongodb directory
-    image: nagendra2244/mongodb:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
+    image: nagendra2244/mongodb:1.2.0 # docker build -t nagendra2244/mongodb:1.2.0
     container_name: mongodb
     volumes:
     - mongodb:/data/db
@@ -75,7 +178,7 @@ services:
 
   mysql:
     build: ./mysql  # It moves to mongodb directory
-    image: nagendra2244/mysql:1.0.0 # docker build -t nagendra2244/mongodb:1.0.0
+    image: nagendra2244/mysql:1.2.0 # docker build -t nagendra2244/mongodb:1.2.0
     container_name: mysql
     volumes:
     - mysql:/var/lib/mysql
